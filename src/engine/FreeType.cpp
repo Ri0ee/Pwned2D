@@ -69,7 +69,6 @@ namespace freetype
         ftchar *tempChar = (ftchar*)malloc(sizeof(ftchar));
         memcpy(tempChar, ftchar_p, sizeof(ftchar));
         m_cached_chars.push_back(tempChar);
-        cout << "symbol '" << tempChar->symbol << "' cached\n";
 
         return errorCode;
     }

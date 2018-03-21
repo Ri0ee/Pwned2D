@@ -23,7 +23,6 @@ int max_msaa_samples   = 0;
 const char* window_name= "OpenGLEngine";
 
 vec2 mouse_pos;
-
 string current_dir;
 
 game::TGame Game;
@@ -38,8 +37,6 @@ bool keyDown[1000];
 TFrameBuffer fbo;
 TFrameBuffer fbo_msaa;
 
-///BEGIN
-
 void GameplayRender()
 {
     for(unsigned int i = 0; i < Game.m_vecEntities.size(); i++)
@@ -47,12 +44,12 @@ void GameplayRender()
 
     color text_color{255, 255, 255, 100};
 
-    graphics::ftDrawText("fps: " + to_string(fps), text_color, vec2(0, 10), 10, ftlib);
-    graphics::ftDrawText((Game.m_collision_flag?"collision: yes":"collision: no"), text_color, vec2(0, 21), 10, ftlib);
-    graphics::ftDrawText("depth: " + to_string(Game.m_collsion_depth), text_color, vec2(0, 32), 10, ftlib);
-    graphics::ftDrawText("mouse pos: (" + to_string(mouse_pos.a) + ";" + to_string(mouse_pos.b) + ")", text_color, vec2(0, 44), 10, ftlib);
+    graphics::DrawText("fps: " + to_string(fps), text_color, vec2(0, 10), 10, ftlib);
+    graphics::DrawText((Game.m_collision_flag?"collision: yes":"collision: no"), text_color, vec2(0, 21), 10, ftlib);
+    graphics::DrawText("depth: " + to_string(Game.m_collsion_depth), text_color, vec2(0, 32), 10, ftlib);
+    graphics::DrawText("mouse pos: (" + to_string(mouse_pos.a) + ";" + to_string(mouse_pos.b) + ")", text_color, vec2(0, 44), 10, ftlib);
 
-    graphics::DrawRectangleT(vec2(100, 100), 100, 100, resmngr.m_game_textures.back(), true);
+    graphics::DrawTexture(vec2(100, 100), 100, 100, resmngr.m_game_textures.back(), true);
 }
 
 void Render()
@@ -81,7 +78,7 @@ void Render()
     }
 
     graphics::Clear();
-    graphics::DrawRectangleT(0, 0, window_width, window_height, fbo.m_texture_id, false);
+    graphics::DrawTexture(vec2(0, 0), window_width, window_height, fbo.m_texture_id, false);
 
     glfwSwapBuffers(window);
 }
@@ -200,7 +197,7 @@ bool InitEverything()
 
 int main(int argc, char **argv)
 {
-    SetConsoleTitle("OpenGL debug console");
+    //SetConsoleTitle("OpenGL debug console");
     string argv_str = argv[0];
     current_dir = argv_str.substr(0, argv_str.find_last_of("\\") + 1);
     cout << "current_dir: " << current_dir << "\n";

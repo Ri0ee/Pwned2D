@@ -37,7 +37,7 @@ void TPolygon::addVertex(float x, float y)
 
 void TPolygon::Draw(float X0, float Y0)
 {
-    graphics::DrawPolygon(vecOutVertex.vecVectors, m_Color, X0, Y0, false);
+    graphics::DrawPolygon(vecOutVertex.vecVectors, m_Color, vec2(X0, Y0), false);
 }
 
 void TPolygon::RotateBase(float Angle, float X0, float Y0)

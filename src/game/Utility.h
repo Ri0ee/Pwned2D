@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include <windows.h>
 
 using std::string;
 using std::stringstream;
