@@ -4,16 +4,8 @@
 # Compiled Object files
 /obj
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Compiled Static libraries
-/lib
-
 # Executables
-/bin
+*.exe
 
 # Code::Blocks files
 *.layout
