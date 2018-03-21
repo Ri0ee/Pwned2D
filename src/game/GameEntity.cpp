@@ -1,4 +1,4 @@
-#include "TGameEntity.h"
+#include "GameEntity.h"
 
 TGameEntity::TGameEntity(string entity_name, TPolygon polygon, vec2 origin, float mass, float acceleration, float rotation_speed)
 {

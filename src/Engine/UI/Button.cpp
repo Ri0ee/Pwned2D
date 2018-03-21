@@ -42,9 +42,9 @@ void TButton::Draw()
 
         switch(m_align)
         {
-            case 1: graphics::ftDrawText(m_caption, m_foreground, vec2(m_pos.a, m_pos.b + m_height - (m_font_info.height / 2)), m_font_info.font_size, *m_ftlib); break;
-            case 2: graphics::ftDrawText(m_caption, m_foreground, vec2(m_pos.a + ((int)m_width / 2) - (m_font_info.width / 2), m_pos.b + m_height - (m_font_info.height / 2)), m_font_info.font_size, *m_ftlib); break;
-            case 3: graphics::ftDrawText(m_caption, m_foreground, vec2(m_pos.a + m_width - m_font_info.width, m_pos.b + m_height - (m_font_info.height / 2)), m_font_info.font_size, *m_ftlib); break;
+            case 1: graphics::ftDrawText(m_caption, m_foreground, vec2(m_pos.a, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
+            case 2: graphics::ftDrawText(m_caption, m_foreground, vec2(m_pos.a + ((int)m_width / 2) - (m_font_info.width / 2), m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
+            case 3: graphics::ftDrawText(m_caption, m_foreground, vec2(m_pos.a + m_width - m_font_info.width, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
         }
     }
 }

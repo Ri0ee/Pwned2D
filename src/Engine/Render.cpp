@@ -49,7 +49,7 @@ namespace graphics
         if(use_blend) glDisable(GL_BLEND);
     }
 
-    void DrawTexture(vector<vec2> shape, vec2 position, GLuint texture, bool use_blending)
+    void DrawTexture(vector<vec2> shape, vec2 position, GLuint texture, bool use_blend)
     {
         float X0 = position.a;
         float Y0 = position.b;

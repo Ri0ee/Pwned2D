@@ -4,7 +4,9 @@
 #include <sstream>
 #include <limits>
 #include <iostream>
-#include <math.h>
+#include <vector>
+#include <cmath>
+#include <windows.h>
 
 using std::string;
 using std::stringstream;

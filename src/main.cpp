@@ -1,21 +1,11 @@
-#include <iostream>
-#include <string>
-#include <cmath>
-#include <windows.h>
+#include "Utility.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-
 #include <GLFW/glfw3.h>
-
-#include "BlurShader.h"
-#include "GlitchShader.h"
-#include "BasicShader.h"
-
 #include "ETime.h"
 #include "FrameBuffer.h"
 #include "Game.h"
-#include "Utility.h"
 #include "Render.h"
 #include "FreeType.h"
 #include "Gui.h"
@@ -26,15 +16,7 @@ using std::cin;
 using std::string;
 using std::vector;
 
-float FPS_LIMIT       = 150.0;
-int frameCount        = 0;
-float FPS             = 0;
-
-float unprocessedTime = 0.0;
-float frameCounter    = 0.0;
-float frameTime       = 1.0/FPS_LIMIT;
-float deltaTime       = 1.0/150.0;
-
+double fps             = 0;
 int window_width       = 1280;
 int window_height      = 720;
 int max_msaa_samples   = 0;
@@ -51,7 +33,6 @@ resources::TResourceManager resmngr;
 
 GLFWwindow* window;
 
-
 bool keyDown[1000];
 
 TFrameBuffer fbo;
@@ -66,7 +47,7 @@ void GameplayRender()
 
     color text_color{255, 255, 255, 100};
 
-    graphics::ftDrawText("fps: " + to_string(FPS), text_color, vec2(0, 10), 10, ftlib);
+    graphics::ftDrawText("fps: " + to_string(fps), text_color, vec2(0, 10), 10, ftlib);
     graphics::ftDrawText((Game.m_collision_flag?"collision: yes":"collision: no"), text_color, vec2(0, 21), 10, ftlib);
     graphics::ftDrawText("depth: " + to_string(Game.m_collsion_depth), text_color, vec2(0, 32), 10, ftlib);
     graphics::ftDrawText("mouse pos: (" + to_string(mouse_pos.a) + ";" + to_string(mouse_pos.b) + ")", text_color, vec2(0, 44), 10, ftlib);
@@ -227,17 +208,22 @@ int main(int argc, char **argv)
     if(!InitEverything())
         return -1;
 
-    double lastTime = glfwGetTime();
+    double unprocessedTime = 0.0;
+    double deltaTime       = 1.0/150.0;
+    double frameCounter    = 0;
+    double lastTime        = glfwGetTime();
+    int    frameCount      = 0;
+
     while(!glfwWindowShouldClose(window)) ///Game loop
     {
         glfwPollEvents();
         bool render = false;
-        float startTime = GetTime();
-        float passedTime = startTime - lastTime;
-        lastTime = GetTime();
+        double startTime = glfwGetTime();
+        double passedTime = startTime - lastTime;
+        lastTime = glfwGetTime();
 
-        unprocessedTime+=passedTime/1000;
-        frameCounter+=passedTime/1000;
+        unprocessedTime+=passedTime;
+        frameCounter+=passedTime;
 
         while(unprocessedTime > deltaTime)
         {
@@ -249,7 +235,7 @@ int main(int argc, char **argv)
 
             if(frameCounter >= 0.5)
             {
-                FPS = frameCount / frameCounter;
+                fps = frameCount / frameCounter;
                 frameCount = 0;
                 frameCounter = 0;
             }

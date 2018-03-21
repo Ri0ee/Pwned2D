@@ -7,7 +7,7 @@
 #include <iterator>
 #include <string>
 
-#include "TGameEntity.h"
+#include "GameEntity.h"
 #include "Structures.h"
 #include "Utility.h"
 

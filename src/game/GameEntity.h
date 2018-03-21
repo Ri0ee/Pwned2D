@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <iostream>
-#include <math.h>
 
 #include "Polygon.h"
 #include "Structures.h"
