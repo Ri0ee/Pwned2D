@@ -17,6 +17,7 @@ using std::vector;
 class TButton
 {
     public:
+        TButton();
         TButton(string button_name, vector<vec2> shape, vec2 position, int align, color background_color, color foreground_color, color highlight_color, string caption);
         virtual ~TButton();
 

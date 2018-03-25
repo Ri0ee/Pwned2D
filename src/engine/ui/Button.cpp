@@ -1,5 +1,7 @@
 #include "Button.h"
 
+TButton::TButton(){}
+
 TButton::TButton(string button_name, vector<vec2> shape, vec2 position, int align, color background_color, color foreground_color, color highlight_color, string caption)
 {
     m_visible = true;
@@ -15,12 +17,16 @@ TButton::TButton(string button_name, vector<vec2> shape, vec2 position, int alig
     m_shape = shape;
     m_align = align;
 
+    m_font_info.font_size = 30;
+    m_font_info.height = 0;
+    m_font_info.width = 0;
+
     FindBoudaries();
 }
 
 TButton::~TButton()
 {
-    cout << "Button '" << m_name << "' destructor called\n";
+
 }
 
 void TButton::SetRenderer(graphics::TRenderer *rndr)

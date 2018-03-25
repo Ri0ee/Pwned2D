@@ -14,6 +14,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <iterator>
 
 using std::cout;
 using std::string;

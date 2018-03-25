@@ -3,7 +3,9 @@
 namespace freetype
 {
     TFreeType::TFreeType()
-    {}
+    {
+        cout << "m_cached_chars.size " << m_cached_chars.size() << "\n";
+    }
 
     TFreeType::~TFreeType()
     {
@@ -15,6 +17,7 @@ namespace freetype
     {
         int errorCode = 0;
 
+        cout << "m_cached_chars.size = " << m_cached_chars.size() << "\n";
         for(unsigned int i = 0; i < m_cached_chars.size(); i++)
             if((m_cached_chars[i]->font_size == font_size) && (m_cached_chars[i]->symbol == symbol))
             {

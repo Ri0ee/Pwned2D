@@ -4,9 +4,12 @@ namespace game
 {
     TGame::TGame(){}
 
-    TGame::~TGame(){}
+    TGame::~TGame()
+    {
+        cout << "TGame destructor called\n";
+    }
 
-    void TGame::Init(graphics::TRenderer *rndr, gui::TGui *gui, resources::TResourceManager *resmngr)
+    void TGame::Init(graphics::TRenderer *rndr, gui::TGui *guilib, resources::TResourceManager *resmngr)
     {
         m_vecCollisions.clear();
         m_msaa = false;
@@ -23,7 +26,7 @@ namespace game
         AddEntity(TGameEntity("Player", Triangle, vec2(10, 200), 1, 10, M_PI / 180));
 
         SetRenderer(rndr);
-        SetGui(gui);
+        SetGui(guilib);
         SetResourceManager(resmngr);
     }
 
@@ -33,9 +36,9 @@ namespace game
         m_renderer_state = true;
     }
 
-    void TGame::SetGui(gui::TGui *gui)
+    void TGame::SetGui(gui::TGui *guilib)
     {
-        m_gui = gui;
+        m_gui = guilib;
 
         //m_gui->GetButton("Start").SetCallback(&StartGame);
 
@@ -168,7 +171,7 @@ namespace game
                 {
                     for(unsigned int j = 0; j < m_vecEntities[i].m_vecPolygon.size(); i++)
                     {
-                        m_vecEntities[i].Rotate();
+                        //m_vecEntities[i].Rotate();
                         m_renderer->DrawPolygon(m_vecEntities[i].m_vecPolygon[j].vecOutVertex.vecVectors, m_vecEntities[i].m_vecPolygon[j].m_color, vec2(m_vecEntities[i].m_x, m_vecEntities[i].m_y), false);
                     }
                 }

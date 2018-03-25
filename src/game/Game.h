@@ -28,7 +28,7 @@ namespace game
             TGame();
             virtual ~TGame();
 
-            void Init(graphics::TRenderer *rndr, gui::TGui *gui, resources::TResourceManager *resmngr);
+            void Init(graphics::TRenderer *rndr, gui::TGui *guilib, resources::TResourceManager *resmngr);
             void SetRenderer(graphics::TRenderer *rndr);
             void SetGui(gui::TGui *guilib);
             void SetResourceManager(resources::TResourceManager *resmngr);

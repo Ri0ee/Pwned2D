@@ -9,7 +9,7 @@ namespace gui
 
     TGui::~TGui()
     {
-        cout << "TGui destructor called\n";
+
     }
 
     void TGui::Init(freetype::TFreeType *ftlib, graphics::TRenderer *rndr, int window_width, int window_height)
@@ -24,15 +24,14 @@ namespace gui
         color hl_btncolor{133, 51, 85, 50};
         color fg_btncolor{255, 51, 204, 100};
 
-        vector<vec2> vertex;
-        vertex.push_back(vec2(0, 0));    vertex.push_back(vec2(300, 0));
-        vertex.push_back(vec2(300, 40)); vertex.push_back(vec2(50, 40));
-        TButton button_1("Start", vertex, vec2(window_width - 300, 10), 1, btncolor, fg_btncolor, hl_btncolor, "left");
-        AddButton(button_1);
-        TButton button_2("Button_2", vertex, vec2(window_width - 300, 80), 2, btncolor, fg_btncolor, hl_btncolor, "middle");
-        AddButton(button_2);
-        TButton button_3("Button_3", vertex, vec2(window_width - 300, 150), 3, btncolor, fg_btncolor, hl_btncolor, "right");
-        AddButton(button_3);
+        vector<vec2> button_shape;
+        button_shape.push_back(vec2(0, 0));    button_shape.push_back(vec2(300, 0));
+        button_shape.push_back(vec2(300, 40)); button_shape.push_back(vec2(50, 40));
+
+        TButton button_1, button_2, button_3;
+        button_1 = TButton("Start", button_shape, vec2(window_width - 300, 10), 1, btncolor, fg_btncolor, hl_btncolor, "Start");     AddButton(button_1);
+        button_2 = TButton("Button_2", button_shape, vec2(window_width - 300, 80), 2, btncolor, fg_btncolor, hl_btncolor, "middle"); AddButton(button_2);
+        button_3 = TButton("Button_3", button_shape, vec2(window_width - 300, 150), 3, btncolor, fg_btncolor, hl_btncolor, "right"); AddButton(button_3);
 
         m_visible = true;
     }
@@ -53,16 +52,22 @@ namespace gui
 
     void TGui::AddButton(TButton button)
     {
-        button.SetFontLib(m_ftlib);
         m_vecUIButton.push_back(button);
+        button.SetFontLib(m_ftlib);
+        button.SetRenderer(m_renderer);
     }
 
     void TGui::Draw()
     {
+        std::cout << m_vecUIButton.size() << "\n";
         if(m_visible)
         {
-            for(unsigned int i = 0; i < m_vecUIButton.size(); i++)
-                m_vecUIButton[i].Draw();
+            for(vector<TButton>::iterator button = m_vecUIButton.begin(); button != m_vecUIButton.end(); button++)
+            {
+                button->Draw();
+            }
+            //for(unsigned int i = 0; i < m_vecUIButton.size(); i++)
+            //    m_vecUIButton[i].Draw();
         }
     }
 
