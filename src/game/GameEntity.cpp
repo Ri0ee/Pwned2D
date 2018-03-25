@@ -32,9 +32,7 @@ void TGameEntity::AddShape(TPolygon polygon)
 void TGameEntity::Rotate()
 {
     for(unsigned int i = 0; i < m_vecPolygon.size(); i++)
-    {
         m_vecPolygon[i].Rotate(m_angle, m_width, m_height);
-    }
 }
 
 void TGameEntity::FindBoudaries()

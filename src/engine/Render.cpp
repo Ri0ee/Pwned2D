@@ -6,6 +6,7 @@ namespace graphics
     {
         m_use_msaa = false;
         m_fps = 0;
+        m_frame_count = 0;
     }
 
     TRenderer::~TRenderer()
@@ -46,6 +47,7 @@ namespace graphics
         }
         Clear();
         DrawTexture(vec2(0, 0), m_window_width, m_window_height, m_fbo.m_texture_id, false);
+        glfwSwapBuffers(m_window);
     }
 
     /*
@@ -76,10 +78,11 @@ namespace graphics
         cout << "Maximum MSAA Samples: " << m_max_msaa_samples << "\n";
     }
 
-    void TRenderer::Init(int window_width, int window_height)
+    void TRenderer::Init(GLFWwindow *window, int window_width, int window_height)
     {
         m_window_width = window_width;
         m_window_height = window_height;
+        m_window = window;
 
         glewExperimental = GL_TRUE;
         glewInit();

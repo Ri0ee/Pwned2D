@@ -88,7 +88,7 @@ bool InitEverything()
 
     ///Module initialization
     FTlib.Init(current_dir, "Fontin-Regular.ttf"); ///Working fine
-    Renderer.Init(window_width, window_height); ///Might be better
+    Renderer.Init(window, window_width, window_height); ///Might be better
     GUIlib.Init(&FTlib, &Renderer, window_width, window_height); ///TODO: fix something here
     Resource_manager.Init(current_dir); ///Working fine
     Game.Init(&Renderer, &GUIlib, &Resource_manager);
@@ -141,9 +141,8 @@ int main(int argc, char **argv)
         }
         if(render)
         {
-            //renderer.Render();
-            glfwSwapBuffers(window);
-            frameCount++;
+            Game.m_render_needed = true;
+            Renderer.m_frame_count++;
         }
     }
 

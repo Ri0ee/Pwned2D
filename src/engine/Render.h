@@ -4,6 +4,7 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <string>
 #include <vector>
@@ -30,7 +31,7 @@ namespace graphics
             TRenderer();
             virtual ~TRenderer();
 
-            void Init(int window_width, int window_height);
+            void Init(GLFWwindow *window, int window_width, int window_height);
             void Clear();
             void BeginRender();
             void EndRender();
@@ -52,7 +53,10 @@ namespace graphics
             int m_max_msaa_samples;
 
             float m_fps;
+            int m_frame_count;
 
             bool m_use_msaa;
+
+            GLFWwindow *m_window;
     };
 }
