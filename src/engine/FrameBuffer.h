@@ -9,7 +9,6 @@ class TFrameBuffer
 {
     public:
         TFrameBuffer();
-        TFrameBuffer(int width, int height);
         virtual ~TFrameBuffer();
 
         void Create(int width, int height);
@@ -19,7 +18,7 @@ class TFrameBuffer
 
         int m_width;
         int m_height;
-        int m_status;
+        bool m_status;
 
         GLuint m_framebuffer_id;
 

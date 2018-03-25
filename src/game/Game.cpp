@@ -2,12 +2,18 @@
 
 namespace game
 {
-    TGame::TGame()
+    TGame::TGame(){}
+
+    TGame::~TGame(){}
+
+    void TGame::Init(graphics::TRenderer *rndr, gui::TGui *gui, resources::TResourceManager *resmngr)
     {
         m_vecCollisions.clear();
         m_msaa = false;
         m_collision_flag = false;
         m_collsion_depth = 0;
+        m_renderer_state = false;
+        m_gui_state = false;
 
         TPolygon Triangle(255, 87, 51, 100);
         Triangle.addVertex(0, 100);
@@ -15,17 +21,36 @@ namespace game
         Triangle.addVertex(50, 0);
         AddEntity(TGameEntity("Player", Triangle, vec2(10, 200), 1, 10, M_PI / 180));
 
-        /*
-        TPolygon Square(255, 189, 51, 100);
-        Square.addVertex(0, 0);
-        Square.addVertex(100, 0);
-        Square.addVertex(100, 100);
-        Square.addVertex(0, 100);
-        AddEntity(TGameEntity("Player2", Square, vec2(200, 300), 1, 10, M_PI / 180));
-        */
+        SetRenderer(rndr);
+        SetGui(gui);
+        SetResourceManager(resmngr);
     }
 
-    TGame::~TGame(){}
+    void TGame::SetRenderer(graphics::TRenderer *rndr)
+    {
+        m_renderer = rndr;
+        m_renderer_state = true;
+    }
+
+    void TGame::SetGui(gui::TGui *gui)
+    {
+        m_gui = gui;
+
+        //m_gui->GetButton("Start").SetCallback(&StartGame);
+
+        m_gui_state = true;
+    }
+
+    void TGame::SetResourceManager(resources::TResourceManager *resmngr)
+    {
+        m_resource_manager = resmngr;
+        m_resource_manager_state = true;
+    }
+
+    void TGame::StartGame(void) ///Button "Start" callback
+    {
+        cout << "Game should be started\n";
+    }
 
     void TGame::AddEntity(TGameEntity entity)
     {
@@ -131,5 +156,24 @@ namespace game
             ent->m_x += VelocityX * delta_time;
             ent->m_y += VelocityY * delta_time;
         }
+
+        ///Game entity and gui element render
+        m_renderer->BeginRender();
+        if(m_renderer_state)
+        {
+            for(unsigned int i = 0; i < m_vecEntities.size(); i++)
+            {
+                for(unsigned int j = 0; j < m_vecEntities[i].m_vecPolygon.size(); i++)
+                {
+                    m_vecEntities[i].Rotate();
+                    m_renderer->DrawPolygon(m_vecEntities[i].m_vecPolygon[j].vecOutVertex.vecVectors, m_vecEntities[i].m_vecPolygon[j].m_color, vec2(m_vecEntities[i].m_x, m_vecEntities[i].m_y), false);
+                }
+            }
+            if(m_gui_state)
+            {
+                m_gui->Draw();
+            }
+        }
+        m_renderer->EndRender();
     }
 }

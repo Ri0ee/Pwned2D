@@ -29,12 +29,11 @@ void TGameEntity::AddShape(TPolygon polygon)
     m_vecPolygon.push_back(polygon);
 }
 
-void TGameEntity::Draw()
+void TGameEntity::Rotate()
 {
     for(unsigned int i = 0; i < m_vecPolygon.size(); i++)
     {
         m_vecPolygon[i].Rotate(m_angle, m_width, m_height);
-        m_vecPolygon[i].Draw(m_x, m_y);
     }
 }
 

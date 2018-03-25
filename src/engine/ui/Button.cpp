@@ -1,11 +1,12 @@
 #include "Button.h"
 
-TButton::TButton(vector<vec2> shape, vec2 position, int align, color background_color, color foreground_color, color highlight_color, string caption, freetype::TFreeType *ftlib)
+TButton::TButton(string button_name, vector<vec2> shape, vec2 position, int align, color background_color, color foreground_color, color highlight_color, string caption)
 {
     m_visible = true;
     m_collided = false;
     m_has_callback = false;
 
+    m_name = button_name;
     m_caption = caption;
     m_pos = position;
     m_background = background_color;
@@ -13,16 +14,24 @@ TButton::TButton(vector<vec2> shape, vec2 position, int align, color background_
     m_highlight_color = highlight_color;
     m_shape = shape;
     m_align = align;
-    m_ftlib = ftlib;
 
     FindBoudaries();
-
-    m_ftlib->GetTextInfo(m_caption, 30, &m_font_info);
 }
 
 TButton::~TButton()
 {
+    cout << "Button '" << m_name << "' destructor called\n";
+}
 
+void TButton::SetRenderer(graphics::TRenderer *rndr)
+{
+    m_renderer = rndr;
+}
+
+void TButton::SetFontLib(freetype::TFreeType *ftlib)
+{
+    m_ftlib = ftlib;
+    m_ftlib->GetTextInfo(m_caption, 30, &m_font_info);
 }
 
 void TButton::SetCallback(void (*callback_function)(void))
@@ -36,15 +45,15 @@ void TButton::Draw()
     if(m_visible)
     {
         if(m_collided)
-            graphics::DrawPolygon(m_shape, m_highlight_color, m_pos, true);
+            m_renderer->DrawPolygon(m_shape, m_highlight_color, m_pos, true);
         else
-            graphics::DrawPolygon(m_shape, m_background, m_pos, true);
+            m_renderer->DrawPolygon(m_shape, m_background, m_pos, true);
 
         switch(m_align)
         {
-            case 1: graphics::DrawText(m_caption, m_foreground, vec2(m_pos.a, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
-            case 2: graphics::DrawText(m_caption, m_foreground, vec2(m_pos.a + ((int)m_width / 2) - (m_font_info.width / 2), m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
-            case 3: graphics::DrawText(m_caption, m_foreground, vec2(m_pos.a + m_width - m_font_info.width, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
+            case 1: m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
+            case 2: m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a + ((int)m_width / 2) - (m_font_info.width / 2), m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
+            case 3: m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a + m_width - m_font_info.width, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, *m_ftlib); break;
         }
     }
 }

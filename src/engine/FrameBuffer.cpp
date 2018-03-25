@@ -3,9 +3,6 @@
 TFrameBuffer::TFrameBuffer()
 {}
 
-TFrameBuffer::TFrameBuffer(int width, int height)
-{}
-
 TFrameBuffer::~TFrameBuffer()
 {}
 

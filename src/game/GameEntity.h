@@ -17,7 +17,7 @@ class TGameEntity
         virtual ~TGameEntity();
 
         void AddShape(TPolygon polygon);
-        void Draw();
+        void Rotate();
         void FindBoudaries();
 
         string m_name;

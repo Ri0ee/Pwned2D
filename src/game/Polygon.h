@@ -19,10 +19,10 @@ class TPolygon
         void addVertex(vec2 vertex);
         void addVertex(float x, float y);
         void Draw(float X0, float Y0);
-        void Rotate(float Angle, float X0, float Y0);
-        void RotateBase(float Angle, float X0, float Y0);
+        void Rotate(float angle, float X0, float Y0);
+        void RotateBase(float angle, float X0, float Y0);
 
-        color m_Color;
+        color m_color;
         Minkowski_Set vecVertex;
         Minkowski_Set vecOutVertex;
 };

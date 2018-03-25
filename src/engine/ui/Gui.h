@@ -20,14 +20,22 @@ namespace gui
             TGui();
             virtual ~TGui();
 
+            void Init(freetype::TFreeType *ftlib, graphics::TRenderer *rndr, int window_width, int window_height);
             void Draw();
             void Reset();
-            void CheckCollsions(vec2 point);
-            void AddButton(TButton button);
             void Press();
+            void CheckCollsions(vec2 point);
+
+            TButton& GetButton(string button_name);
+            void AddButton(TButton button);
 
             vector<TButton> m_vecUIButton;
 
             bool m_visible;
+            freetype::TFreeType *m_ftlib;
+            graphics::TRenderer *m_renderer;
+
+            int m_window_width;
+            int m_window_height;
     };
 }
