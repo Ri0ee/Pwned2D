@@ -56,5 +56,7 @@ namespace game
             bool m_collision_flag;
             float m_collsion_depth;
             int m_sleep_time;
+
+            bool m_render_needed;
     };
 }

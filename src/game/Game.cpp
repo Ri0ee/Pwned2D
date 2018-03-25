@@ -14,6 +14,7 @@ namespace game
         m_collsion_depth = 0;
         m_renderer_state = false;
         m_gui_state = false;
+        m_render_needed = false;
 
         TPolygon Triangle(255, 87, 51, 100);
         Triangle.addVertex(0, 100);
@@ -158,22 +159,26 @@ namespace game
         }
 
         ///Game entity and gui element render
-        m_renderer->BeginRender();
-        if(m_renderer_state)
+        if(m_render_needed)
         {
-            for(unsigned int i = 0; i < m_vecEntities.size(); i++)
+            m_renderer->BeginRender();
+            if(m_renderer_state)
             {
-                for(unsigned int j = 0; j < m_vecEntities[i].m_vecPolygon.size(); i++)
+                for(unsigned int i = 0; i < m_vecEntities.size(); i++)
                 {
-                    m_vecEntities[i].Rotate();
-                    m_renderer->DrawPolygon(m_vecEntities[i].m_vecPolygon[j].vecOutVertex.vecVectors, m_vecEntities[i].m_vecPolygon[j].m_color, vec2(m_vecEntities[i].m_x, m_vecEntities[i].m_y), false);
+                    for(unsigned int j = 0; j < m_vecEntities[i].m_vecPolygon.size(); i++)
+                    {
+                        m_vecEntities[i].Rotate();
+                        m_renderer->DrawPolygon(m_vecEntities[i].m_vecPolygon[j].vecOutVertex.vecVectors, m_vecEntities[i].m_vecPolygon[j].m_color, vec2(m_vecEntities[i].m_x, m_vecEntities[i].m_y), false);
+                    }
+                }
+                if(m_gui_state)
+                {
+                    m_gui->Draw();
                 }
             }
-            if(m_gui_state)
-            {
-                m_gui->Draw();
-            }
+            m_renderer->EndRender();
+            m_render_needed = false;
         }
-        m_renderer->EndRender();
     }
 }

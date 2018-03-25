@@ -87,10 +87,10 @@ bool InitEverything()
     glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     ///Module initialization
-    FTlib.Init(current_dir, "Fontin-Regular.ttf");
-    Renderer.Init(window_width, window_height);
-    GUIlib.Init(&FTlib, &Renderer, window_width, window_height);
-    Resource_manager.Init(current_dir);
+    FTlib.Init(current_dir, "Fontin-Regular.ttf"); ///Working fine
+    Renderer.Init(window_width, window_height); ///Might be better
+    GUIlib.Init(&FTlib, &Renderer, window_width, window_height); ///TODO: fix something here
+    Resource_manager.Init(current_dir); ///Working fine
     Game.Init(&Renderer, &GUIlib, &Resource_manager);
 
     glfwSetTime(0);

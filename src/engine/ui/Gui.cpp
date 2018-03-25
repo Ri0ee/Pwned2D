@@ -27,9 +27,12 @@ namespace gui
         vector<vec2> vertex;
         vertex.push_back(vec2(0, 0));    vertex.push_back(vec2(300, 0));
         vertex.push_back(vec2(300, 40)); vertex.push_back(vec2(50, 40));
-        TButton button_1("Start", vertex, vec2(window_width - 300, 10), 1, btncolor, fg_btncolor, hl_btncolor, "left"); AddButton(button_1);
-        TButton button_2("Button_2", vertex, vec2(window_width - 300, 80), 2, btncolor, fg_btncolor, hl_btncolor, "middle"); AddButton(button_2);
-        TButton button_3("Button_3", vertex, vec2(window_width - 300, 150), 3, btncolor, fg_btncolor, hl_btncolor, "right"); AddButton(button_3);
+        TButton button_1("Start", vertex, vec2(window_width - 300, 10), 1, btncolor, fg_btncolor, hl_btncolor, "left");
+        AddButton(button_1);
+        TButton button_2("Button_2", vertex, vec2(window_width - 300, 80), 2, btncolor, fg_btncolor, hl_btncolor, "middle");
+        AddButton(button_2);
+        TButton button_3("Button_3", vertex, vec2(window_width - 300, 150), 3, btncolor, fg_btncolor, hl_btncolor, "right");
+        AddButton(button_3);
 
         m_visible = true;
     }
