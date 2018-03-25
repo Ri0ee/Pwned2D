@@ -139,11 +139,8 @@ int main(int argc, char **argv)
             }
             render = true;
         }
-        if(render)
-        {
-            Game.m_render_needed = true;
-            Renderer.m_frame_count++;
-        }
+        Game.m_render_needed = true;
+        frameCount++;
     }
 
     glfwTerminate();
