@@ -175,21 +175,19 @@ namespace graphics
     void TRenderer::DrawText(string text, color text_color, vec2 position, int text_size, freetype::TFreeType &ftlib)
     {
         float shift = 0;
-        for(unsigned int i = 0; i < text.size(); i++)
+        for(auto i = 0; i < text.size(); i++)
         {
-            freetype::ftchar *tempChar = new freetype::ftchar();
-            ftlib.GetSymbol(text[i], tempChar, text_size);
+            freetype::ftchar tempChar;
+            ftlib.GetSymbol(text[i], &tempChar, text_size);
 
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glColor4f(float(text_color.r) / 255, float(text_color.g) / 255, float(text_color.b) / 255, float(text_color.a) / 100);
-            DrawTexture(vec2(position.a + shift, position.b - tempChar->bearingY), tempChar->width, tempChar->height, tempChar->texture, false);
+            DrawTexture(vec2(position.a + shift, position.b - tempChar.bearingY), tempChar.width, tempChar.height, tempChar.texture, false);
             glColor4f(1, 1, 1, 1);
             glDisable(GL_BLEND);
 
-            shift+=tempChar->advance;
-
-            delete tempChar;
+            shift+=tempChar.advance;
         }
     }
 }

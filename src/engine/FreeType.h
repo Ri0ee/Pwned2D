@@ -17,6 +17,7 @@
 #include <iterator>
 
 using std::cout;
+using std::endl;
 using std::string;
 using std::min;
 using std::max;
@@ -27,6 +28,17 @@ namespace freetype
     struct ftchar
     {
         public:
+            void operator=(const ftchar &other_char)
+            {
+                advance = other_char.advance;
+                bearingY = other_char.bearingY;
+                font_size = other_char.font_size;
+                height = other_char.height;
+                symbol = other_char.symbol;
+                texture = other_char.texture;
+                width = other_char.width;
+            }
+
             char symbol;
             GLuint texture;
             int width, height, font_size;
@@ -46,14 +58,13 @@ namespace freetype
             TFreeType();
             virtual ~TFreeType();
 
-            FT_Library ftlib;
-            FT_Face ftface;
-
-            bool use_kerning;
-            vector<ftchar*> m_cached_chars;
-
-            void Init(string directory, string font_name);
-            int GetSymbol(const char &symbol, ftchar *ftchar_p, int font_size);
+            int Init(string directory, string font_name);
+            int GetSymbol(char symbol, ftchar *ftchar_p, int font_size);
             int GetTextInfo(string text, int font_size, textinf *text_info);
+
+        private:
+            FT_Library m_ftlib;
+            FT_Face m_ftface;
+            vector<ftchar> m_cached_chars;
     };
 }

@@ -4,57 +4,55 @@ namespace freetype
 {
     TFreeType::TFreeType()
     {
-        cout << "m_cached_chars.size " << m_cached_chars.size() << "\n";
+        cout << m_cached_chars.size() << endl;
+        ftchar test_char;
+        m_cached_chars.push_back(test_char);
+        cout << m_cached_chars.size() << endl;
     }
 
     TFreeType::~TFreeType()
     {
-        FT_Done_Face(ftface);
-        FT_Done_FreeType(ftlib);
+        FT_Done_Face(m_ftface);
+        FT_Done_FreeType(m_ftlib);
     }
 
-    int TFreeType::GetSymbol(const char &symbol, ftchar *ftchar_p, int font_size)
+    int TFreeType::GetSymbol(char symbol, ftchar *ftchar_p, int font_size)
     {
         int errorCode = 0;
 
-        cout << "m_cached_chars.size = " << m_cached_chars.size() << "\n";
-        for(unsigned int i = 0; i < m_cached_chars.size(); i++)
-            if((m_cached_chars[i]->font_size == font_size) && (m_cached_chars[i]->symbol == symbol))
+        for(auto cached_char = m_cached_chars.begin(); cached_char != m_cached_chars.end(); cached_char++)
+        {
+            if((cached_char->font_size == font_size) && (cached_char->symbol == symbol))
             {
-                memcpy(ftchar_p, m_cached_chars[i], sizeof(ftchar));
+                ftchar_p = &*cached_char;
                 return 0;
             }
-
-        errorCode = FT_Set_Char_Size(ftface, 0, font_size * 64, 96, 96);
-        if(errorCode != 0)
-        {
-            cout << "Failed to set char size. error code: " << errorCode << "\n";
-            return errorCode;
         }
 
-        errorCode = FT_Load_Char(ftface, (int)symbol, FT_LOAD_RENDER);
+        errorCode = FT_Set_Char_Size(m_ftface, 0, font_size * 64, 96, 96); ///96 x 96 is default Windows font resolution
         if(errorCode != 0)
-        {
-            cout << "Failed to load glyph of symbol '" << symbol << "'\n";
             return errorCode;
-        }
+
+        errorCode = FT_Load_Char(m_ftface, (int)symbol, FT_LOAD_RENDER);
+        if(errorCode != 0)
+            return errorCode;
 
         FT_Matrix matrix;
         matrix.xx = (1 * 0x10000L); matrix.yx = (0);
-        matrix.xy = (0); matrix.yy = (-1 * 0x10000L);
-        FT_Set_Transform(ftface, &matrix, 0);
+        matrix.xy = (0);            matrix.yy = (-1 * 0x10000L);
+        FT_Set_Transform(m_ftface, &matrix, 0);
 
-        int width = ftface->glyph->bitmap.width;
-        int height = ftface->glyph->bitmap.rows;
-        float advance = ftface->glyph->metrics.horiAdvance / 64;
-        float bearingY = ftface->glyph->metrics.horiBearingY / 64;
+        int width = m_ftface->glyph->bitmap.width;
+        int height = m_ftface->glyph->bitmap.rows;
+        float advance = m_ftface->glyph->metrics.horiAdvance / 64;
+        float bearingY = m_ftface->glyph->metrics.horiBearingY / 64;
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
         GLuint tempTexture;
         glGenTextures(1, &tempTexture);
         glBindTexture(GL_TEXTURE_2D, tempTexture);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, width, height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, ftface->glyph->bitmap.buffer);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, width, height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, m_ftface->glyph->bitmap.buffer);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -69,8 +67,7 @@ namespace freetype
         ftchar_p->font_size = font_size;
         ftchar_p->symbol = symbol;
 
-        ftchar *tempChar = (ftchar*)malloc(sizeof(ftchar));
-        memcpy(tempChar, ftchar_p, sizeof(ftchar));
+        ftchar tempChar = *ftchar_p;
         m_cached_chars.push_back(tempChar);
 
         return errorCode;
@@ -79,33 +76,26 @@ namespace freetype
     int TFreeType::GetTextInfo(string text, int font_size, textinf *text_info)
     {
         int errorCode = 0;
-
         int total_width = 0;
         int max_height = 0;
 
-        for(unsigned int i = 0; i < text.size(); i++)
+        for(auto i = 0; i < text.size(); i++)
         {
-            errorCode = FT_Set_Char_Size(ftface, 0, font_size * 64, 96, 96);
+            errorCode = FT_Set_Char_Size(m_ftface, 0, font_size * 64, 96, 96); ///96 x 96 is default Windows font resolution
             if(errorCode != 0)
-            {
-                cout << "Failed to freetype set char size. Error code: " << errorCode << "\n";
                 return errorCode;
-            }
 
-            errorCode = FT_Load_Char(ftface, (int)text[i], FT_LOAD_RENDER);
+            errorCode = FT_Load_Char(m_ftface, (int)text[i], FT_LOAD_RENDER);
             if(errorCode != 0)
-            {
-                cout << "Failed to load Glyph of symbol '" << text[i] << "'\n";
                 return errorCode;
-            }
 
             FT_Matrix matrix;
             matrix.xx = (1 * 0x10000L); matrix.yx = (0);
-            matrix.xy = (0); matrix.yy = (-1 * 0x10000L);
-            FT_Set_Transform(ftface, &matrix, 0);
+            matrix.xy = (0);            matrix.yy = (-1 * 0x10000L);
+            FT_Set_Transform(m_ftface, &matrix, 0);
 
-            int glyph_height = ftface->glyph->metrics.height / 64;
-            int advance = ftface->glyph->metrics.horiAdvance / 64;
+            int glyph_height = m_ftface->glyph->metrics.height / 64;
+            int advance = m_ftface->glyph->metrics.horiAdvance / 64;
 
             total_width += advance;
             max_height += glyph_height;
@@ -116,21 +106,19 @@ namespace freetype
         return errorCode;
     }
 
-    void TFreeType::Init(string directory, string font_name)
+    int TFreeType::Init(string directory, string font_name)
     {
-        int errorCode;
-
-        errorCode=FT_Init_FreeType(&ftlib);
-        if(errorCode != 0)
-            cout << "Failed to init FreeType library\n";
-
+        int errorCode = 0;
         string fpos = directory + font_name;
-        errorCode = FT_New_Face(ftlib, fpos.c_str(), 0, &ftface);
+
+        errorCode = FT_Init_FreeType(&m_ftlib); ///Init freetype library
         if(errorCode != 0)
-            cout << "Failed to init FreeType face. error code: " << errorCode << "\n";
+            return errorCode;
 
-        use_kerning = FT_HAS_KERNING(ftface);
+        errorCode = FT_New_Face(m_ftlib, fpos.c_str(), 0, &m_ftface); ///Init font
+        if(errorCode != 0)
+            return errorCode;
 
-        return;
+        return errorCode;
     }
 }

@@ -130,9 +130,9 @@ namespace game
         m_sleep_time++;
 
         ///Looking for Collision
-        for(unsigned int i = 0; i < m_vecEntities.size(); i++)
+        for(auto i = 0; i < m_vecEntities.size(); i++)
         {
-            for(unsigned int j = i + 1; j < m_vecEntities.size(); j++)
+            for(auto j = i + 1; j < m_vecEntities.size(); j++)
             {
                 float tempPenetrationDepth = 0;
                 if(FindForwardCollisionM(i, j, delta_time, tempPenetrationDepth))
@@ -167,12 +167,15 @@ namespace game
             m_renderer->BeginRender();
             if(m_renderer_state)
             {
-                for(unsigned int i = 0; i < m_vecEntities.size(); i++)
+                for(auto i = 0; i < m_vecEntities.size(); i++)
                 {
-                    for(unsigned int j = 0; j < m_vecEntities[i].m_vecPolygon.size(); i++)
+                    for(auto j = 0; j < m_vecEntities[i].m_vecPolygon.size(); j++)
                     {
                         //m_vecEntities[i].Rotate();
-                        m_renderer->DrawPolygon(m_vecEntities[i].m_vecPolygon[j].vecOutVertex.vecVectors, m_vecEntities[i].m_vecPolygon[j].m_color, vec2(m_vecEntities[i].m_x, m_vecEntities[i].m_y), false);
+                        m_renderer->DrawPolygon(m_vecEntities[i].m_vecPolygon[j].vecOutVertex.vecVectors,
+                                                m_vecEntities[i].m_vecPolygon[j].m_color,
+                                                vec2(m_vecEntities[i].m_x, m_vecEntities[i].m_y),
+                                                false);
                     }
                 }
                 if(m_gui_state)

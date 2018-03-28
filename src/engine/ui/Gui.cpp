@@ -59,15 +59,10 @@ namespace gui
 
     void TGui::Draw()
     {
-        std::cout << m_vecUIButton.size() << "\n";
         if(m_visible)
         {
-            for(vector<TButton>::iterator button = m_vecUIButton.begin(); button != m_vecUIButton.end(); button++)
-            {
+            for(auto button = m_vecUIButton.begin(); button != m_vecUIButton.end(); button++)
                 button->Draw();
-            }
-            //for(unsigned int i = 0; i < m_vecUIButton.size(); i++)
-            //    m_vecUIButton[i].Draw();
         }
     }
 
@@ -75,7 +70,7 @@ namespace gui
     {
         if(m_visible)
         {
-            for(unsigned int i = 0; i < m_vecUIButton.size(); i++)
+            for(auto i = 0; i < m_vecUIButton.size(); i++)
                 m_vecUIButton[i].CheckCollision(point);
         }
     }
@@ -84,7 +79,7 @@ namespace gui
     {
         if(m_visible)
         {
-            for(unsigned int i = 0; i < m_vecUIButton.size(); i++)
+            for(auto i = 0; i < m_vecUIButton.size(); i++)
                 m_vecUIButton[i].Press();
         }
     }
