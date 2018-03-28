@@ -10,9 +10,11 @@
 #include "GameEntity.h"
 #include "Structures.h"
 #include "Utility.h"
+
 #include "Render.h"
 #include "Gui.h"
 #include "ResourceManager.h"
+#include "InputManager.h"
 
 #define DECIPATON 0.02
 
@@ -28,10 +30,7 @@ namespace game
             TGame();
             virtual ~TGame();
 
-            void Init(graphics::TRenderer *rndr, gui::TGui *guilib, resources::TResourceManager *resmngr);
-            void SetRenderer(graphics::TRenderer *rndr);
-            void SetGui(gui::TGui *guilib);
-            void SetResourceManager(resources::TResourceManager *resmngr);
+            void Init(graphics::TRenderer *rndr, gui::TGui *guilib, resources::TResourceManager *resmngr, input::TInputManager *inputmngr);
 
             void StartGame(void);
             void Input(bool* keys);

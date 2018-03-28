@@ -34,6 +34,7 @@ namespace gui
             bool m_visible;
             freetype::TFreeType *m_ftlib;
             graphics::TRenderer *m_renderer;
+            input::TInputManager *m_input_manager;
 
             int m_window_width;
             int m_window_height;

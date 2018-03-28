@@ -30,7 +30,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-m32" />
 					<Add directory="src/engine" />
 					<Add directory="src/game" />
 					<Add directory="src/engine/ui" />
@@ -39,12 +38,11 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-m32" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
+			<Add option="-std=c++14" />
 			<Add directory="incl" />
 			<Add directory="lib" />
 		</Compiler>
@@ -58,12 +56,7 @@
 			<Add directory="incl" />
 			<Add directory="lib" />
 		</Linker>
-		<Unit filename="src/engine/shaders/BasicShader.cpp" />
-		<Unit filename="src/engine/shaders/BasicShader.h" />
-		<Unit filename="src/engine/shaders/BlurShader.cpp" />
-		<Unit filename="src/engine/shaders/BlurShader.h" />
-		<Unit filename="src/engine/shaders/GlitchShader.cpp" />
-		<Unit filename="src/engine/shaders/GlitchShader.h" />
+		<Unit filename="src/Main.cpp" />
 		<Unit filename="src/engine/ETime.cpp" />
 		<Unit filename="src/engine/ETime.h" />
 		<Unit filename="src/engine/FrameBuffer.cpp" />
@@ -76,12 +69,18 @@
 		<Unit filename="src/engine/Render.h" />
 		<Unit filename="src/engine/ResourceManager.cpp" />
 		<Unit filename="src/engine/ResourceManager.h" />
-		<Unit filename="src/engine/shaders/ShaderLoader.cpp" />
-		<Unit filename="src/engine/shaders/ShaderLoader.h" />
 		<Unit filename="src/engine/TGALoader.cpp" />
 		<Unit filename="src/engine/TGALoader.h" />
 		<Unit filename="src/engine/TextureLoader.cpp" />
 		<Unit filename="src/engine/TextureLoader.h" />
+		<Unit filename="src/engine/shaders/BasicShader.cpp" />
+		<Unit filename="src/engine/shaders/BasicShader.h" />
+		<Unit filename="src/engine/shaders/BlurShader.cpp" />
+		<Unit filename="src/engine/shaders/BlurShader.h" />
+		<Unit filename="src/engine/shaders/GlitchShader.cpp" />
+		<Unit filename="src/engine/shaders/GlitchShader.h" />
+		<Unit filename="src/engine/shaders/ShaderLoader.cpp" />
+		<Unit filename="src/engine/shaders/ShaderLoader.h" />
 		<Unit filename="src/engine/ui/Button.cpp" />
 		<Unit filename="src/engine/ui/Button.h" />
 		<Unit filename="src/engine/ui/Gui.cpp" />
@@ -90,6 +89,8 @@
 		<Unit filename="src/game/ConvexHull.h" />
 		<Unit filename="src/game/Game.cpp" />
 		<Unit filename="src/game/Game.h" />
+		<Unit filename="src/game/GameEntity.cpp" />
+		<Unit filename="src/game/GameEntity.h" />
 		<Unit filename="src/game/Minkowski.cpp" />
 		<Unit filename="src/game/Minkowski.h" />
 		<Unit filename="src/game/PointCollision.cpp" />
@@ -97,11 +98,8 @@
 		<Unit filename="src/game/Polygon.cpp" />
 		<Unit filename="src/game/Polygon.h" />
 		<Unit filename="src/game/Structures.h" />
-		<Unit filename="src/game/GameEntity.cpp" />
-		<Unit filename="src/game/GameEntity.h" />
 		<Unit filename="src/game/Utility.cpp" />
 		<Unit filename="src/game/Utility.h" />
-		<Unit filename="src/Main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

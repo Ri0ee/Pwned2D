@@ -20,7 +20,7 @@ TPolygon::TPolygon(int r, int g, int b, int a)
 
 TPolygon::~TPolygon()
 {
-    cout << "TPolygon destructor called\n";
+
 }
 
 void TPolygon::addVertex(vec2 vertex)

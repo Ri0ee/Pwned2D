@@ -25,46 +25,47 @@ using std::vector;
 
 namespace freetype
 {
-    struct ftchar
-    {
-        public:
-            void operator=(const ftchar &other_char)
-            {
-                advance = other_char.advance;
-                bearingY = other_char.bearingY;
-                font_size = other_char.font_size;
-                height = other_char.height;
-                symbol = other_char.symbol;
-                texture = other_char.texture;
-                width = other_char.width;
-            }
+	struct ftchar
+	{
+	public:
+		void operator=(const ftchar &other_char)
+		{
+			advance = other_char.advance;
+			bearingY = other_char.bearingY;
+			font_size = other_char.font_size;
+			height = other_char.height;
+			symbol = other_char.symbol;
+			texture = other_char.texture;
+			width = other_char.width;
+		}
 
-            char symbol;
-            GLuint texture;
-            int width, height, font_size;
-            float advance, bearingY;
-    };
+		char symbol;
+		GLuint texture;
+		int width, height, font_size;
+		float advance, bearingY;
+	};
 
-    struct textinf
-    {
-        public:
-            int width, height;
-            int font_size;
-    };
+	struct textinf
+	{
+	public:
+		int width, height;
+		int font_size;
+	};
 
-    class TFreeType
-    {
-        public:
-            TFreeType();
-            virtual ~TFreeType();
+	class TFreeType
+	{
+	public:
+		TFreeType();
+		virtual ~TFreeType();
 
-            int Init(string directory, string font_name);
-            int GetSymbol(char symbol, ftchar *ftchar_p, int font_size);
-            int GetTextInfo(string text, int font_size, textinf *text_info);
+		int Init(string directory, string font_name);
+		int GetSymbol(char symbol, ftchar *ftchar_p, int font_size);
+		int GetTextInfo(string text, int font_size, textinf *text_info);
 
-        private:
-            FT_Library m_ftlib;
-            FT_Face m_ftface;
-            vector<ftchar> m_cached_chars;
-    };
+	private:
+		FT_Library m_ftlib;
+		FT_Face m_ftface;
+		vector<ftchar> m_cached_chars;
+		bool m_use_caching;
+	};
 }

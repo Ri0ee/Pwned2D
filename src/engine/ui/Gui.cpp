@@ -2,9 +2,14 @@
 
 namespace gui
 {
-    TGui::TGui()
+    TGui::TGui(freetype::TFreeType *ftlib, graphics::TRenderer *renderer, input::TInputManager *inputmngr)
     {
         m_visible = false;
+        m_ftlib = ftlib;
+        m_renderer = renderer;
+        m_input_manager = inputmngr;
+        m_window_width = renderer->m_window_width;
+        m_window_height = renderer->m_window_height;
     }
 
     TGui::~TGui()
