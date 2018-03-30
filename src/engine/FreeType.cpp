@@ -2,35 +2,51 @@
 
 namespace freetype
 {
-	TFreeType::TFreeType()
+	TFreeType::TFreeType(string current_dir, string font_name)
 	{
-		cout << m_cached_chars.size() << endl;
-		ftchar test_char;
-		m_cached_chars.push_back(test_char);
-		cout << m_cached_chars.size() << endl;
+		int errorCode = 0;
+		m_status = true;
+		string fpos = current_dir + font_name;
+
+		errorCode = FT_Init_FreeType(&m_ftlib); ///Init freetype library
+		if(errorCode != 0)
+        {
+            cout << "failed to init freetype library. error code = " << errorCode << endl;
+            m_status = false;
+        }
+
+        if(!m_status)
+        {
+            errorCode = FT_New_Face(m_ftlib, fpos.c_str(), 0, &m_ftface); ///Init font
+            if(errorCode != 0)
+            {
+                cout << "failed to init freetype face. error code = " << errorCode << endl;
+                m_status = false;
+            }
+        }
 	}
 
 	TFreeType::~TFreeType()
 	{
-		FT_Done_Face(m_ftface);
-		FT_Done_FreeType(m_ftlib);
+	    if(m_status)
+        {
+            FT_Done_Face(m_ftface);
+            FT_Done_FreeType(m_ftlib);
+        }
 	}
 
 	int TFreeType::GetSymbol(char symbol, ftchar *ftchar_p, int font_size)
 	{
 		int errorCode = 0;
 
-		if(m_use_caching)
-		{
-			for(auto cached_char = m_cached_chars.begin(); cached_char != m_cached_chars.end(); cached_char++)
-			{
-				if((cached_char->font_size == font_size) && (cached_char->symbol == symbol))
-				{
-					ftchar_p = &*cached_char;
-					return 0;
-				}
-			}
-		}
+        for(auto cached_char = m_cached_chars.begin(); cached_char != m_cached_chars.end(); cached_char++)
+        {
+            if((cached_char->font_size == font_size) && (cached_char->symbol == symbol))
+            {
+                ftchar_p = &*cached_char;
+                return 0;
+            }
+        }
 
 		errorCode = FT_Set_Char_Size(m_ftface, 0, font_size * 64, 96, 96); ///96 x 96 is default Windows font resolution
 		if(errorCode != 0)
@@ -72,11 +88,8 @@ namespace freetype
 		ftchar_p->font_size = font_size;
 		ftchar_p->symbol = symbol;
 
-		if(m_use_caching)
-		{
-			ftchar tempChar = *ftchar_p;
-			m_cached_chars.push_back(tempChar);
-		}
+        ftchar tempChar = *ftchar_p;
+        m_cached_chars.push_back(tempChar);
 
 		return errorCode;
 	}
@@ -113,24 +126,6 @@ namespace freetype
 		text_info->font_size = font_size;
 		text_info->width = total_width;
 		text_info->height = max_height / text.size();
-		return errorCode;
-	}
-
-	int TFreeType::Init(string directory, string font_name)
-	{
-		int errorCode = 0;
-		string fpos = directory + font_name;
-
-		errorCode = FT_Init_FreeType(&m_ftlib); ///Init freetype library
-		if(errorCode != 0)
-			return errorCode;
-
-		errorCode = FT_New_Face(m_ftlib, fpos.c_str(), 0, &m_ftface); ///Init font
-		if(errorCode != 0)
-			return errorCode;
-
-		m_use_caching = false;
-
 		return errorCode;
 	}
 }

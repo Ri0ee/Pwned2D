@@ -54,18 +54,17 @@ namespace freetype
 
 	class TFreeType
 	{
-	public:
-		TFreeType();
-		virtual ~TFreeType();
+        public:
+            TFreeType(string current_dir, string font_name);
+            virtual ~TFreeType();
 
-		int Init(string directory, string font_name);
-		int GetSymbol(char symbol, ftchar *ftchar_p, int font_size);
-		int GetTextInfo(string text, int font_size, textinf *text_info);
+            int GetSymbol(char symbol, ftchar *ftchar_p, int font_size);
+            int GetTextInfo(string text, int font_size, textinf *text_info);
+            bool m_status;
 
-	private:
-		FT_Library m_ftlib;
-		FT_Face m_ftface;
-		vector<ftchar> m_cached_chars;
-		bool m_use_caching;
+        private:
+            FT_Library m_ftlib;
+            FT_Face m_ftface;
+            vector<ftchar> m_cached_chars;
 	};
 }

@@ -21,6 +21,7 @@
 					<Add directory="src/engine/ui" />
 					<Add directory="src/engine/shaders" />
 					<Add directory="incl" />
+					<Add directory="src" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -35,6 +36,7 @@
 					<Add directory="src/engine/ui" />
 					<Add directory="src/engine/shaders" />
 					<Add directory="incl" />
+					<Add directory="src" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -56,6 +58,8 @@
 			<Add directory="incl" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="src/Instance.cpp" />
+		<Unit filename="src/Instance.h" />
 		<Unit filename="src/Main.cpp" />
 		<Unit filename="src/engine/ETime.cpp" />
 		<Unit filename="src/engine/ETime.h" />
@@ -63,6 +67,8 @@
 		<Unit filename="src/engine/FrameBuffer.h" />
 		<Unit filename="src/engine/FreeType.cpp" />
 		<Unit filename="src/engine/FreeType.h" />
+		<Unit filename="src/engine/InputManager.cpp" />
+		<Unit filename="src/engine/InputManager.h" />
 		<Unit filename="src/engine/Logger.cpp" />
 		<Unit filename="src/engine/Logger.h" />
 		<Unit filename="src/engine/Render.cpp" />
@@ -73,6 +79,8 @@
 		<Unit filename="src/engine/TGALoader.h" />
 		<Unit filename="src/engine/TextureLoader.cpp" />
 		<Unit filename="src/engine/TextureLoader.h" />
+		<Unit filename="src/engine/WindowManager.cpp" />
+		<Unit filename="src/engine/WindowManager.h" />
 		<Unit filename="src/engine/shaders/BasicShader.cpp" />
 		<Unit filename="src/engine/shaders/BasicShader.h" />
 		<Unit filename="src/engine/shaders/BlurShader.cpp" />

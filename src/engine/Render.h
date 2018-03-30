@@ -20,7 +20,7 @@
 #include "WindowManager.h"
 
 using std::cout;
-using std::cin;
+using std::endl;
 using std::string;
 using std::vector;
 
@@ -32,7 +32,6 @@ namespace graphics
 		TRenderer();
 		virtual ~TRenderer();
 
-		void Init(GLFWwindow *window, int window_width, int window_height);
 		void Clear();
 		void BeginRender();
 		void EndRender();
@@ -58,6 +57,6 @@ namespace graphics
 
 		bool m_use_msaa;
 
-		GLFWwindow *m_window;
+		window::TWindowManager* m_window_manager;
 	};
 }

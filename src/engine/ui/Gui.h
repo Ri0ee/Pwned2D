@@ -17,14 +17,11 @@ namespace gui
     class TGui
     {
         public:
-            TGui();
+            TGui(freetype::TFreeType *ftlib, graphics::TRenderer *renderer, input::TInputManager *inputmngr);
             virtual ~TGui();
 
-            void Init(freetype::TFreeType *ftlib, graphics::TRenderer *rndr, int window_width, int window_height);
             void Draw();
-            void Reset();
-            void Press();
-            void CheckCollsions(vec2 point);
+            void ProcessInput();
 
             TButton& GetButton(string button_name);
             void AddButton(TButton button);

@@ -12,6 +12,7 @@
 using std::cout;
 using std::cin;
 using std::string;
+using std::max;
 using std::vector;
 
 class TButton
@@ -23,15 +24,17 @@ public:
 
 	void Draw();
 	void FindBoudaries();
+
 	void CheckCollision(vec2 point);
 	void Press();
+	void Release();
 
 	void SetCallback(void (*callback_function)(void));
-	void SetFontLib(freetype::TFreeType *ftlib);
-	void SetRenderer(graphics::TRenderer *rndr);
+	void SetFontLib(freetype::TFreeType* ftlib);
+	void SetRenderer(graphics::TRenderer* rndr);
 
-	freetype::TFreeType *m_ftlib;
-	graphics::TRenderer *m_renderer;
+	freetype::TFreeType* m_ftlib;
+	graphics::TRenderer* m_renderer;
 
 	vector<vec2> m_shape;
 	string m_caption;
@@ -40,11 +43,13 @@ public:
 	color m_background;
 	color m_foreground;
 	color m_highlight_color;
+	color m_pressed_color;
 
 	float m_width;
 	float m_height;
 	bool m_visible;
 	bool m_collided;
+	bool m_pressed;
 	bool m_has_callback;
 	int m_align;
 	string m_name;

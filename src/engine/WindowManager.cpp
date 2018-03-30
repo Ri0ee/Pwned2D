@@ -4,6 +4,7 @@ namespace window
 {
 	TWindowManager::TWindowManager(string window_name, int window_width, int window_height)
 	{
+	    cout << "window manager constructor called" << endl;
 		m_window_name = window_name;
 		m_window_height = window_height;
 		m_window_width = window_width;
@@ -30,6 +31,7 @@ namespace window
 
 	TWindowManager::~TWindowManager()
 	{
+	    cout << "window manager destructor called" << endl;
 		if(!m_status)
 		{
 			glfwDestroyWindow(m_window);

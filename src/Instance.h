@@ -30,6 +30,9 @@ class TInstance
         window::TWindowManager*      Window_Instance;
         graphics::TRenderer*         Renderer_Instance;
         gui::TGui*                   GUI_Instance;
-        freetype::TFreeType*         FT_Instance;
-        resources::TResourceManager* RM_Instance;
+        freetype::TFreeType*         FreeType_Instance;
+        resources::TResourceManager* Resource_Manager_Instance;
+        input::TInputManager*        Input_Manager_Instance;
+
+        bool m_status;
 };

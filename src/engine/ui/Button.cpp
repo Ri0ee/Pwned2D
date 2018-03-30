@@ -14,6 +14,7 @@ TButton::TButton(string button_name, vector<vec2> shape, vec2 position, int alig
 	m_background = background_color;
 	m_foreground = foreground_color;
 	m_highlight_color = highlight_color;
+	m_pressed_color = color{highlight_color.a * 0.5, highlight_color.b * 0.5, highlight_color.g * 0.5, 100};
 	m_shape = shape;
 	m_align = align;
 
@@ -26,7 +27,7 @@ TButton::TButton(string button_name, vector<vec2> shape, vec2 position, int alig
 
 TButton::~TButton()
 {
-
+    cout << "button destructor called" << endl;
 }
 
 void TButton::SetRenderer(graphics::TRenderer *rndr)
@@ -51,21 +52,26 @@ void TButton::Draw()
 	if(m_visible)
 	{
 		if(m_collided)
-			m_renderer->DrawPolygon(m_shape, m_highlight_color, m_pos, true);
+        {
+            if(m_pressed)
+                m_renderer->DrawPolygon(m_shape, m_pressed_color, m_pos, true);
+            else
+                m_renderer->DrawPolygon(m_shape, m_highlight_color, m_pos, true);
+        }
 		else
 			m_renderer->DrawPolygon(m_shape, m_background, m_pos, true);
 
 		switch(m_align)
 		{
-		case 1:
-			m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, m_ftlib);
-			break;
-		case 2:
-			m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a + ((int)m_width / 2) - (m_font_info.width / 2), m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, m_ftlib);
-			break;
-		case 3:
-			m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a + m_width - m_font_info.width, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, m_ftlib);
-			break;
+            case 1: ///Left align
+                m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, &m_ftlib);
+                break;
+            case 2: ///Middle align
+                m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a + ((int)m_width / 2) - (m_font_info.width / 2), m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, &m_ftlib);
+                break;
+            case 3: ///Right align
+                m_renderer->DrawText(m_caption, m_foreground, vec2(m_pos.a + m_width - m_font_info.width, m_pos.b + m_height - (m_font_info.height / 2) + 5), m_font_info.font_size, &m_ftlib);
+                break;
 		}
 	}
 }
@@ -78,7 +84,14 @@ void TButton::CheckCollision(vec2 point)
 void TButton::Press()
 {
 	if(m_collided && m_visible)
+        m_pressed = true;
+}
+
+void TButton::Release()
+{
+	if(m_pressed && m_visible)
 	{
+	    m_pressed = false;
 		if(m_has_callback)
 			m_callback_function();
 		else
@@ -88,12 +101,12 @@ void TButton::Press()
 
 void TButton::FindBoudaries()
 {
-	float MaxW = 0, MaxH = m_shape[0].a;
-	for(unsigned int i = 0; i < m_shape.size(); i++)
-	{
-		MaxW = std::max(m_shape[i].a, MaxW);
-		MaxH = std::max(m_shape[i].b, MaxH);
-	}
+	float MaxW = m_shape[0].a, MaxH = m_shape[0].b;
+	for(auto it = m_shape.begin(); it != m_shape.end(); it++)
+    {
+        MaxW = max(MaxW, it->a);
+        MaxH = max(MaxH, it->b);
+    }
 	m_width = MaxW;
 	m_height = MaxH;
 }

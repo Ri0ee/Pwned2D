@@ -4,19 +4,38 @@ namespace graphics
 {
 	TRenderer::TRenderer(window::TWindowManager* windowmngr)
 	{
+	    cout << "renderer constructor called" << endl;
 		m_use_msaa = false;
 		m_fps = 0;
 		m_frame_count = 0;
+		m_window_manager = windowmngr;
 
-        glfwMakeContextCurrent(windowmngr->m_window);
-        Init(windowmngr->m_window, windowmngr->m_window_width, windowmngr->m_window_height);
-        m_window_width = windowmngr->m_window_width;
-        m_window_height = windowmngr->m_window_height;
+        glfwMakeContextCurrent(m_window_manager->m_window);
+        m_window_width = m_window_manager->m_window_width;
+        m_window_height = m_window_manager->m_window_height;
+
+        glewExperimental = GL_TRUE;
+		glewInit();
+
+		glViewport(0, 0, m_window_width, m_window_height);
+		glMatrixMode(GL_PROJECTION);
+		glOrtho(0, m_window_height, m_window_height, 0, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glEnable(GL_TEXTURE_2D);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+		glGetIntegerv(GL_MAX_SAMPLES, &m_max_msaa_samples);
+
+		m_fbo.Create(m_window_width, m_window_height);
+		m_fbo_msaa.CreateMultisampled(m_window_width, m_window_height, 4);
+
+		DebugInfo();
 	}
 
 	TRenderer::~TRenderer()
 	{
-
+        cout << "renderer destructor called" << endl;
 	}
 
 	void TRenderer::BeginRender()
@@ -55,20 +74,6 @@ namespace graphics
 		glfwSwapBuffers(m_window);
 	}
 
-	/*
-	void TRenderer::GameplayRender()
-	{
-	    color text_color{255, 255, 255, 100};
-
-	    DrawText("fps: " + to_string(fps), text_color, vec2(0, 10), 10, ftlib);
-	    DrawText((Game.m_collision_flag?"collision: yes":"collision: no"), text_color, vec2(0, 21), 10, ftlib);
-	    DrawText("depth: " + to_string(Game.m_collsion_depth), text_color, vec2(0, 32), 10, ftlib);
-	    DrawText("mouse pos: (" + to_string(mouse_pos.a) + ";" + to_string(mouse_pos.b) + ")", text_color, vec2(0, 44), 10, ftlib);
-
-	    DrawTexture(vec2(100, 100), 100, 100, resmngr.m_game_textures.back(), true);
-	}
-	*/
-
 	void TRenderer::DrawFPSCounter()
 	{
 		//DrawText("fps: " + to_string(fps), text_color, vec2(0, 10), 10, ftlib);
@@ -81,31 +86,6 @@ namespace graphics
 		cout << "Vendor: " << glGetString(GL_VENDOR) << "\n";
 		cout << "Renderer: " << glGetString(GL_RENDERER) << "\n";
 		cout << "Maximum MSAA Samples: " << m_max_msaa_samples << "\n";
-	}
-
-	void TRenderer::Init(GLFWwindow *window, int window_width, int window_height)
-	{
-		m_window_width = window_width;
-		m_window_height = window_height;
-		m_window = window;
-
-		glewExperimental = GL_TRUE;
-		glewInit();
-
-		glViewport(0, 0, m_window_width, m_window_height);
-		glMatrixMode(GL_PROJECTION);
-		glOrtho(0, m_window_height, m_window_height, 0, -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_TEXTURE_2D);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-
-		glGetIntegerv(GL_MAX_SAMPLES, &m_max_msaa_samples);
-
-		m_fbo.Create(m_window_width, m_window_height);
-		m_fbo_msaa.CreateMultisampled(m_window_width, m_window_height, 4);
-
-		DebugInfo();
 	}
 
 	void TRenderer::Clear()

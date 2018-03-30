@@ -3,25 +3,36 @@
 TInstance::TInstance(string current_dir, string program_name, int window_width, int window_height)
 {
     m_current_dir = current_dir;
+    m_should_finish = false;
 
     Window_Instance = new window::TWindowManager(program_name, window_width, window_height);
-    Render_Instance = new graphics::TRenderer(&Window_Instance);
-    FT_Instance = new freetype::TFreeType(current_dir, "Fontin-Regular.ttf");
-    RM_Instance = new resources::TResourceManager(current_dir);
-    IM_Instance = new input::TInputManager(&Window_Instance);
-    GUI_Instance = new gui::TGui(&FT_Instance, &Render_Instance, &IM_Instance);
-    Game_Instance = new game::TGame(&Render_Instance, &GUI_Instance, &RM_Instance, &IM_Instance);
+    if(Window_Instance->m_status)
+    {
+        Input_Manager_Instance = new input::TInputManager(Window_Instance);
+        Render_Instance = new graphics::TRenderer(Window_Instance);
+
+        FreeType_Instance = new freetype::TFreeType(current_dir, "Fontin-Regular.ttf");
+        Resource_Manager_Instance = new resources::TResourceManager(current_dir); ///Needs GLEW to be initialized
+
+        GUI_Instance = new gui::TGui(FreeType_Instance, Render_Instance, Input_Manager_Instance);
+        Game_Instance = new game::TGame(Render_Instance, GUI_Instance, Resource_Manager_Instance, Input_Manager_Instance);
+    }
+    else m_status = false;
 }
 
 TInstance::~TInstance()
 {
-    delete Window_Instance;
-    delete FT_Instance;
-    delete GUI_Instance;
-    delete RM_Instance;
-    delete IM_Instance;
-    delete GUI_Instance;
-    delete Game_Instance;
+    if(Window_Instance->m_status)
+    {
+        delete Window_Instance;
+        delete FreeType_Instance;
+        delete GUI_Instance;
+        delete Resource_Manager_Instance;
+        delete Input_Manager_Instance;
+        delete GUI_Instance;
+        delete Game_Instance;
+    }
+    else delete Window_Instance;
 }
 
 void MainLoop()

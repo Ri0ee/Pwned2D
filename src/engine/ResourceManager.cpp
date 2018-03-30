@@ -2,22 +2,23 @@
 
 namespace resources
 {
-    TResourceManager::TResourceManager()
-    {}
+    TResourceManager::TResourceManager(string current_dir)
+    {
+        cout << "resource manager constructor called" << endl;
+        m_current_dir = current_dir;
+
+        LoadTextures();
+        LoadSettings();
+    }
 
     TResourceManager::~TResourceManager()
-    {}
-
-    void TResourceManager::Init(string path)
     {
-        m_path = path;
-        LoadTextures();
-        //LoadSettings();
+        cout << "resource manager destructor called" << endl;
     }
 
     void TResourceManager::LoadTextures()
     {
-        m_game_textures.push_back(m_texture_loader.GetTexture(m_path + "Textures\\ship.tga"));
+        m_game_textures.push_back(m_texture_loader.GetTexture(m_current_dir + "Textures\\ship.tga"));
     }
 
     void TResourceManager::LoadSettings()

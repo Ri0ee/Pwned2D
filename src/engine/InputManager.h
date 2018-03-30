@@ -1,20 +1,35 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <GLFW/glfw3.h>
+#include "Structures.h"
+#include "WindowManager.h"
 
-class TInputManager
+using std::cout;
+using std::endl;
+using std::vector;
+
+namespace input
 {
-    public:
-        TInputManager(window::TWindowManager* windowmngr);
-        virtual ~TInputManager();
+    class TInputManager
+    {
+        public:
+            TInputManager(window::TWindowManager* windowmngr);
+            virtual ~TInputManager();
 
-        bool Key[1000];
+            vector<bool> m_key_state;
+            vec2 m_mouse_pos;
+            bool m_mouse_is_pressed;
+            bool m_mouse_is_released;
 
-        void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-        void mouse_move_callback(GLFWwindow* window, double xpos, double ypos);
-        void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-};
+            window::TWindowManager* m_window_manager;
+
+            void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+            void mouse_move_callback(GLFWwindow* window, double xpos, double ypos);
+            void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    };
+}
 
 #define GLFW_KEY_SPACE              32
 #define GLFW_KEY_APOSTROPHE         39  /* ' */
